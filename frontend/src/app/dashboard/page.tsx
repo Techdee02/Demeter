@@ -1,4 +1,4 @@
-import { AppLayout } from '@/components/dashboard';
+import { AppLayout, RiskGauge, RiskBreakdown, SensorCard } from '@/components/dashboard';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -55,80 +55,61 @@ export default function DashboardPage() {
                 <CardDescription>7-day forecast analysis</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-center h-48 bg-[var(--color-dust)] rounded-lg">
-                  <div className="text-center">
-                    <div className="text-5xl font-bold text-[var(--color-low)]">LOW</div>
-                    <div className="text-sm text-[var(--color-bark)] mt-2">15% Risk Score</div>
-                  </div>
+                <div className="flex justify-center py-4">
+                  <RiskGauge value={15} size="lg" />
                 </div>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[var(--color-bark)]">Water Stress</span>
-                    <Badge variant="low" size="sm">8%</Badge>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[var(--color-bark)]">Heat Stress</span>
-                    <Badge variant="low" size="sm">12%</Badge>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[var(--color-bark)]">Disease Risk</span>
-                    <Badge variant="healthy" size="sm">3%</Badge>
-                  </div>
+                <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
+                  <RiskBreakdown
+                    items={[
+                      { label: 'Water Stress', value: 8 },
+                      { label: 'Heat Stress', value: 12 },
+                      { label: 'Disease Risk', value: 3 },
+                    ]}
+                    size="sm"
+                  />
                 </div>
               </CardContent>
             </Card>
 
             {/* Sensor Cards */}
-            <Card hover="glow">
-              <CardHeader>
-                <CardTitle className="text-base">Soil Moisture</CardTitle>
-                <CardDescription>Real-time sensor data</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2">
-                  <div className="text-3xl font-bold text-[var(--color-water)]">42%</div>
-                  <Badge variant="low" size="sm">Optimal</Badge>
-                </div>
-                <div className="mt-3 h-2 bg-[var(--color-dust)] rounded-full overflow-hidden">
-                  <div className="h-full bg-[var(--color-water)]" style={{ width: '42%' }} />
-                </div>
-                <p className="text-xs text-[var(--color-bark)] mt-2">
-                  Field capacity: 35-45% · Last updated: 2 min ago
-                </p>
-              </CardContent>
-            </Card>
+            <SensorCard
+              type="moisture"
+              value={42}
+              unit="%"
+              status="low"
+              statusLabel="Optimal"
+              minValue={0}
+              maxValue={100}
+              optimalRange="35-45%"
+              lastUpdated="2 min ago"
+              trend="stable"
+            />
 
-            <Card hover="glow">
-              <CardHeader>
-                <CardTitle className="text-base">Temperature</CardTitle>
-                <CardDescription>Average today</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2">
-                  <div className="text-3xl font-bold text-[var(--color-primary)]">28°C</div>
-                  <Badge variant="moderate" size="sm">Normal</Badge>
-                </div>
-                <p className="text-xs text-[var(--color-bark)] mt-2">
-                  High: 32°C · Low: 24°C
-                </p>
-              </CardContent>
-            </Card>
+            <SensorCard
+              type="temperature"
+              value={28}
+              unit="°C"
+              status="moderate"
+              statusLabel="Normal"
+              minValue={15}
+              maxValue={45}
+              optimalRange="22-30°C"
+              lastUpdated="2 min ago"
+              trend="up"
+            />
 
-            <Card hover="glow">
-              <CardHeader>
-                <CardTitle className="text-base">Humidity</CardTitle>
-                <CardDescription>Current level</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2">
-                  <div className="text-3xl font-bold text-[var(--color-cloud)]">68%</div>
-                  <Badge variant="healthy" size="sm">Good</Badge>
-                </div>
-                <p className="text-xs text-[var(--color-bark)] mt-2">
-                  Ideal range: 60-80%
-                </p>
-              </CardContent>
-            </Card>
+            <SensorCard
+              type="humidity"
+              value={68}
+              unit="%"
+              status="healthy"
+              statusLabel="Good"
+              minValue={0}
+              maxValue={100}
+              optimalRange="60-80%"
+              lastUpdated="2 min ago"
+              trend="stable"
+            />
           </div>
 
           {/* Middle Column - 3D Farm Visualization */}
@@ -256,7 +237,7 @@ export default function DashboardPage() {
         {/* Status Badge */}
         <div className="text-center pt-4">
           <Badge variant="primary" size="lg">
-            ✓ Dashboard Grid Structure Complete | Task 5/18
+            ✓ RiskGauge & SensorCards Complete | Tasks 6-7/18
           </Badge>
         </div>
       </div>
