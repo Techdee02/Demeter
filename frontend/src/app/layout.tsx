@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { QueryProvider } from "@/lib/api";
 import "./globals.css";
 
 const inter = Inter({
@@ -37,7 +38,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
