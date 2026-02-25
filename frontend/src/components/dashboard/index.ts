@@ -6,3 +6,4 @@ export { SensorCard, SensorMiniCard } from './SensorCard';
 export { SimulationPanel, SimulationPanelCompact } from './SimulationPanel';
 export { ForecastChart, SparklineChart } from './ForecastChart';
 export { RecommendationBanner, RecommendationList, sampleRecommendations } from './RecommendationBanner';
+export { FarmSelector, FarmSelectorCompact } from './FarmSelector';

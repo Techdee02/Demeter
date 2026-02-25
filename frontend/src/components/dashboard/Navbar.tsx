@@ -1,8 +1,18 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Sprout, User, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FarmSelector } from './FarmSelector';
 
-export function Navbar() {
+interface NavbarProps {
+  defaultFarmId?: string;
+}
+
+export function Navbar({ defaultFarmId = '1' }: NavbarProps) {
+  const [selectedFarmId, setSelectedFarmId] = useState(defaultFarmId);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--bg-card)] shadow-sm">
       <div className="flex h-16 items-center justify-between px-6">
@@ -17,11 +27,12 @@ export function Navbar() {
           </div>
         </Link>
 
-        {/* Center - Farm Selector (placeholder for now) */}
-        <div className="flex-1 max-w-md mx-8">
-          <div className="text-sm text-[var(--color-bark)] text-center">
-            🌾 Select your farm
-          </div>
+        {/* Center - Farm Selector */}
+        <div className="flex-1 flex justify-center mx-8">
+          <FarmSelector
+            selectedFarmId={selectedFarmId}
+            onSelectFarm={setSelectedFarmId}
+          />
         </div>
 
         {/* Right - Actions */}
