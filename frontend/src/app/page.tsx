@@ -1,3 +1,8 @@
+import { Button } from '@/components/ui/Button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
+import { Input } from '@/components/ui/Input';
+import { Badge } from '@/components/ui/Badge';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--bg-page)] p-8">
@@ -5,99 +10,133 @@ export default function Home() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="font-display text-5xl font-bold text-[var(--color-soil)] mb-3">
-            Demeter
+            Demeter UI Components
           </h1>
           <p className="text-lg text-[var(--color-bark)]">
-            AI-Powered Digital Twin for African Agriculture
+            Core component library for the Digital Twin platform
           </p>
         </div>
 
-        {/* Color Palette Section */}
-        <div className="card-demeter p-8 mb-8">
-          <h2 className="font-display text-2xl font-semibold text-[var(--color-soil)] mb-6">
-            Color Palette
+        {/* Button Variants */}
+        <Card className="mb-8" padding="lg">
+          <CardHeader>
+            <CardTitle>Buttons</CardTitle>
+            <CardDescription>Button variants and sizes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <p className="text-sm font-medium text-[var(--color-bark)] mb-3">Variants</p>
+                <div className="flex flex-wrap gap-3">
+                  <Button variant="primary">Primary</Button>
+                  <Button variant="secondary">Secondary</Button>
+                  <Button variant="outline">Outline</Button>
+                  <Button variant="ghost">Ghost</Button>
+                  <Button variant="danger">Danger</Button>
+                  <Button variant="success">Success</Button>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[var(--color-bark)] mb-3">Sizes</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Button size="sm">Small</Button>
+                  <Button size="md">Medium</Button>
+                  <Button size="lg">Large</Button>
+                  <Button size="icon">🌾</Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Card Variants */}
+        <div className="mb-8">
+          <h2 className="font-display text-2xl font-semibold text-[var(--color-soil)] mb-4">
+            Cards
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="space-y-2">
-              <div className="h-20 rounded-lg bg-[var(--color-primary)]"></div>
-              <p className="text-sm font-mono text-[var(--color-bark)]">Terracotta</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-20 rounded-lg bg-[var(--color-gold)]"></div>
-              <p className="text-sm font-mono text-[var(--color-bark)]">Savanna Gold</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-20 rounded-lg bg-[var(--color-leaf)]"></div>
-              <p className="text-sm font-mono text-[var(--color-bark)]">Deep Leaf</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-20 rounded-lg bg-[var(--color-soil)]"></div>
-              <p className="text-sm font-mono text-[var(--color-bark)]">Deep Soil</p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card variant="default">
+              <CardHeader>
+                <CardTitle>Default Card</CardTitle>
+                <CardDescription>Standard card with border and shadow</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card variant="elevated">
+              <CardHeader>
+                <CardTitle>Elevated Card</CardTitle>
+                <CardDescription>Card with larger shadow</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card variant="outline">
+              <CardHeader>
+                <CardTitle>Outline Card</CardTitle>
+                <CardDescription>Card with border only</CardDescription>
+              </CardHeader>
+            </Card>
           </div>
         </div>
 
-        {/* Risk Status Section */}
-        <div className="card-demeter p-8 mb-8">
-          <h2 className="font-display text-2xl font-semibold text-[var(--color-soil)] mb-6">
-            Risk Status Colors
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="space-y-2">
-              <div className="h-16 rounded-lg bg-critical"></div>
-              <p className="text-sm font-mono text-critical">Critical</p>
+        {/* Input Fields */}
+        <Card className="mb-8" padding="lg">
+          <CardHeader>
+            <CardTitle>Input Fields</CardTitle>
+            <CardDescription>Text inputs with validation states</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 max-w-md">
+              <Input placeholder="Default input" />
+              <Input variant="error" placeholder="Error state input" />
+              <Input variant="success" placeholder="Success state input" />
+              <Input inputSize="sm" placeholder="Small input" />
+              <Input inputSize="lg" placeholder="Large input" />
             </div>
-            <div className="space-y-2">
-              <div className="h-16 rounded-lg bg-severe"></div>
-              <p className="text-sm font-mono text-severe">Severe</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-16 rounded-lg bg-moderate"></div>
-              <p className="text-sm font-mono text-moderate">Moderate</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-16 rounded-lg bg-low"></div>
-              <p className="text-sm font-mono text-low">Low Risk</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-16 rounded-lg bg-healthy"></div>
-              <p className="text-sm font-mono text-healthy">Healthy</p>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Typography Section */}
-        <div className="card-demeter p-8 mb-8">
-          <h2 className="font-display text-2xl font-semibold text-[var(--color-soil)] mb-6">
-            Typography
-          </h2>
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm text-[var(--color-bark)] mb-1">Display Font (DM Sans)</p>
-              <p className="font-display text-3xl text-[var(--color-soil)]">
-                The quick brown fox jumps over the lazy dog
-              </p>
+        {/* Badges */}
+        <Card className="mb-8" padding="lg">
+          <CardHeader>
+            <CardTitle>Badges</CardTitle>
+            <CardDescription>Status badges and labels</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <p className="text-sm font-medium text-[var(--color-bark)] mb-3">Risk Status Badges</p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="critical">Critical</Badge>
+                  <Badge variant="severe">Severe</Badge>
+                  <Badge variant="moderate">Moderate</Badge>
+                  <Badge variant="low">Low Risk</Badge>
+                  <Badge variant="healthy">Healthy</Badge>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[var(--color-bark)] mb-3">Standard Badges</p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="default">Default</Badge>
+                  <Badge variant="primary">Primary</Badge>
+                  <Badge variant="secondary">Secondary</Badge>
+                  <Badge variant="outline">Outline</Badge>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[var(--color-bark)] mb-3">Sizes</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge size="sm">Small</Badge>
+                  <Badge size="md">Medium</Badge>
+                  <Badge size="lg">Large</Badge>
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-[var(--color-bark)] mb-1">Body Font (Inter)</p>
-              <p className="text-base text-[var(--color-soil)]">
-                The quick brown fox jumps over the lazy dog
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-[var(--color-bark)] mb-1">Monospace Font (JetBrains Mono)</p>
-              <p className="font-mono text-base text-[var(--color-soil)]">
-                const farm = &#123; id: 1, name: &quot;Amina&apos;s Farm&quot; &#125;;
-              </p>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Status */}
         <div className="text-center">
-          <p className="text-sm text-[var(--color-bark)]">
-            ✓ Design tokens initialized | Task 2/18 complete
-          </p>
+          <Badge variant="healthy" size="lg">
+            ✓ Core UI Components Complete | Task 3/18
+          </Badge>
         </div>
       </div>
     </div>
