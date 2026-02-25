@@ -3,15 +3,16 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const cardVariants = cva(
-  'rounded-xl transition-all duration-300',
+  'rounded-2xl transition-all duration-300',
   {
     variants: {
       variant: {
-        default: 'bg-white border border-[rgba(45,27,14,0.06)] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_16px_rgba(45,27,14,0.04)]',
-        elevated: 'bg-white shadow-[0_4px_20px_rgba(45,27,14,0.08),0_8px_40px_rgba(45,27,14,0.06)] border border-[rgba(255,255,255,0.8)]',
-        outline: 'border-2 border-[rgba(45,27,14,0.12)] bg-white/50',
+        default: 'bg-white/90 backdrop-blur-sm border border-[rgba(45,31,26,0.06)] shadow-[0_2px_8px_rgba(0,0,0,0.04),0_8px_24px_rgba(45,31,26,0.05)]',
+        elevated: 'bg-white shadow-[0_8px_30px_rgba(45,31,26,0.1),0_4px_16px_rgba(45,31,26,0.06)] border border-white',
+        outline: 'border-2 border-[rgba(45,31,26,0.1)] bg-white/70 backdrop-blur-sm',
         ghost: 'bg-transparent',
-        glass: 'bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_4px_30px_rgba(45,27,14,0.06)]',
+        glass: 'bg-white/75 backdrop-blur-xl border border-white/60 shadow-[0_8px_32px_rgba(45,31,26,0.08)]',
+        gradient: 'bg-gradient-to-br from-white via-white to-[#FFF8F5] border border-[rgba(232,107,69,0.1)] shadow-[0_8px_30px_rgba(232,107,69,0.08)]',
       },
       padding: {
         none: 'p-0',
@@ -21,9 +22,10 @@ const cardVariants = cva(
       },
       hover: {
         none: '',
-        lift: 'hover:shadow-[0_8px_30px_rgba(45,27,14,0.1),0_4px_12px_rgba(45,27,14,0.04)] hover:-translate-y-0.5',
-        glow: 'hover:shadow-[0_0_30px_rgba(198,93,59,0.15)] hover:border-[rgba(198,93,59,0.2)]',
-        scale: 'hover:scale-[1.01]',
+        lift: 'hover:shadow-[0_12px_40px_rgba(45,31,26,0.12)] hover:-translate-y-1 cursor-pointer',
+        glow: 'hover:shadow-[0_0_40px_rgba(232,107,69,0.2)] hover:border-[rgba(232,107,69,0.25)] cursor-pointer',
+        scale: 'hover:scale-[1.02] cursor-pointer',
+        bright: 'hover:bg-white hover:shadow-[0_12px_40px_rgba(45,31,26,0.12)] cursor-pointer',
       }
     },
     defaultVariants: {

@@ -1,53 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  /* Color Tokens - Demeter Design System (Modern & Refined) */
-  --color-primary: #C65D3B;
-  --color-primary-hover: #B5522F;
-  --color-primary-light: rgba(198, 93, 59, 0.1);
-  --color-soil: #1A1612;
-  --color-gold: #E5B563;
-  --color-leaf: #3D8B5F;
-  --color-dust: #F7F4EF;
-  --color-bark: #7D6B5D;
-  --color-cloud: #94A3B8;
-  --color-water: #0EA5E9;
+  /* Color Tokens - Demeter Design System (Vibrant & Fresh) */
+  --color-primary: #E86B45;
+  --color-primary-hover: #D45A35;
+  --color-primary-light: rgba(232, 107, 69, 0.12);
+  --color-soil: #2D1F1A;
+  --color-gold: #FFBE42;
+  --color-leaf: #34C772;
+  --color-dust: #FBF9F6;
+  --color-bark: #8B7355;
+  --color-cloud: #A8C5E2;
+  --color-water: #22B8E8;
   
-  /* Extended Terracotta Palette */
-  --color-terracotta-50: #FEF7F5;
-  --color-terracotta-100: #FDEEE9;
-  --color-terracotta-200: #FBDDD2;
-  --color-terracotta-300: #F5B8A1;
-  --color-terracotta-400: #E8825F;
-  --color-terracotta-500: #C65D3B;
-  --color-terracotta-600: #A94A2E;
-  --color-terracotta-700: #8B3B24;
+  /* Extended Terracotta Palette - Brighter */
+  --color-terracotta-50: #FFF8F5;
+  --color-terracotta-100: #FFEDE7;
+  --color-terracotta-200: #FFD8CB;
+  --color-terracotta-300: #FFB69E;
+  --color-terracotta-400: #F28B68;
+  --color-terracotta-500: #E86B45;
+  --color-terracotta-600: #D45A35;
+  --color-terracotta-700: #B54628;
   
-  /* Risk Colors - Refined */
-  --color-critical: #DC2626;
-  --color-severe: #EA580C;
-  --color-moderate: #F59E0B;
-  --color-low: #84CC16;
-  --color-healthy: #22C55E;
+  /* Green/Growth Palette - Fresh & Vibrant */
+  --color-green-50: #EEFBF3;
+  --color-green-100: #D6F5E3;
+  --color-green-200: #A8EBCA;
+  --color-green-300: #6DDBA8;
+  --color-green-400: #34C772;
+  --color-green-500: #22A85C;
+  --color-green-600: #1A8A4A;
   
-  /* Backgrounds - Subtle gradients */
-  --bg-page: #FAFAF8;
+  /* Risk Colors - Vibrant */
+  --color-critical: #EF4444;
+  --color-severe: #F97316;
+  --color-moderate: #FBBF24;
+  --color-low: #A3E635;
+  --color-healthy: #34D399;
+  
+  /* Backgrounds - Brighter, cleaner */
+  --bg-page: #FDFCFA;
   --bg-card: #FFFFFF;
   --bg-elevated: #FFFFFF;
-  --bg-subtle: #F8F6F3;
-  --bg-muted: #F3F0EB;
+  --bg-subtle: #FAF8F5;
+  --bg-muted: #F5F2ED;
+  --bg-accent: linear-gradient(135deg, #FFF8F5 0%, #EEFBF3 100%);
   
-  /* Modern Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-glow: 0 0 20px rgba(198, 93, 59, 0.15);
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
-  --shadow-card-hover: 0 8px 30px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  /* Modern Shadows - Enhanced */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 2px 4px rgba(45, 31, 26, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 12px rgba(45, 31, 26, 0.06), 0 2px 4px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 12px 24px rgba(45, 31, 26, 0.08), 0 4px 8px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 24px 48px rgba(45, 31, 26, 0.1), 0 8px 16px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 32px 64px rgba(45, 31, 26, 0.14);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+  --shadow-glow: 0 0 24px rgba(232, 107, 69, 0.2);
+  --shadow-glow-green: 0 0 24px rgba(52, 199, 114, 0.2);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(45, 31, 26, 0.03);
+  --shadow-card-hover: 0 8px 32px rgba(45, 31, 26, 0.1), 0 4px 12px rgba(0, 0, 0, 0.04);
   
   /* Spacing */
   --space-1: 4px;
@@ -306,17 +317,35 @@ body {
 .bg-low { background-color: var(--color-low); }
 .bg-healthy { background-color: var(--color-healthy); }
 
-/* Gradient utilities */
+/* Gradient utilities - Vibrant */
 .gradient-soil {
-  background: linear-gradient(135deg, var(--color-soil) 0%, var(--color-bark) 100%);
+  background: linear-gradient(135deg, var(--color-soil) 0%, #4A3830 100%);
 }
 
 .gradient-sun {
-  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-primary) 100%);
+  background: linear-gradient(135deg, #FFD86E 0%, var(--color-primary) 100%);
 }
 
 .gradient-growth {
-  background: linear-gradient(135deg, var(--color-leaf) 0%, var(--color-low) 100%);
+  background: linear-gradient(135deg, #34D399 0%, #6EE7A0 100%);
+}
+
+.gradient-fresh {
+  background: linear-gradient(135deg, #EEFBF3 0%, #FFF8F5 100%);
+}
+
+.gradient-warm {
+  background: linear-gradient(135deg, #FFF8F5 0%, #FFEDE7 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(160deg, #FDFCFA 0%, #FFF8F5 30%, #EEFBF3 70%, #FDFCFA 100%);
+}
+
+.gradient-animated {
+  background: linear-gradient(270deg, var(--color-primary), var(--color-gold), var(--color-leaf), var(--color-primary));
+  background-size: 400% 400%;
+  animation: gradientFlow 8s ease infinite;
 }
 
 /* Scrollbar styling */
@@ -366,7 +395,7 @@ body {
 @keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -377,7 +406,7 @@ body {
 @keyframes slideInDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-16px);
   }
   to {
     opacity: 1;
@@ -388,7 +417,7 @@ body {
 @keyframes slideInLeft {
   from {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateX(-16px);
   }
   to {
     opacity: 1;
@@ -399,7 +428,7 @@ body {
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.92);
   }
   to {
     opacity: 1;
@@ -412,7 +441,7 @@ body {
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 }
 
@@ -425,29 +454,143 @@ body {
   }
 }
 
+/* NEW: Floating animation for decorative elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+  75% {
+    transform: translateY(4px) rotate(-1deg);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes grow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
 /* Animation utilities */
 .animate-fade-in {
-  animation: fadeIn 0.3s var(--animate-timing);
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-slide-in-up {
-  animation: slideInUp 0.3s var(--animate-timing);
+  animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-slide-in-down {
-  animation: slideInDown 0.3s var(--animate-timing);
+  animation: slideInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-slide-in-left {
-  animation: slideInLeft 0.3s var(--animate-timing);
+  animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.2s var(--animate-timing);
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* NEW Animation utilities */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.animate-sway {
+  animation: sway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.animate-grow {
+  animation: grow 3s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientFlow 4s ease infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
 }
 
 /* Hover animations */
@@ -475,7 +618,7 @@ body {
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 30px rgba(198, 93, 59, 0.25);
+  box-shadow: 0 0 30px rgba(232, 107, 69, 0.3);
 }
 
 .hover-border {
