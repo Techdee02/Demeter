@@ -26,35 +26,35 @@ const severityConfig: Record<AlertSeverity, {
   icon: React.ComponentType<{ className?: string }>;
   borderColor: string;
   bgColor: string;
-  iconColor: string;
+  iconClassName: string;
   badgeVariant: 'critical' | 'severe' | 'moderate' | 'healthy';
 }> = {
   critical: {
     icon: AlertCircle,
     borderColor: 'var(--color-critical)',
     bgColor: 'rgba(184, 53, 43, 0.05)',
-    iconColor: 'var(--color-critical)',
+    iconClassName: 'text-[var(--color-critical)]',
     badgeVariant: 'critical',
   },
   warning: {
     icon: AlertTriangle,
     borderColor: 'var(--color-moderate)',
     bgColor: 'rgba(212, 168, 83, 0.05)',
-    iconColor: 'var(--color-moderate)',
+    iconClassName: 'text-[var(--color-moderate)]',
     badgeVariant: 'moderate',
   },
   info: {
     icon: Info,
     borderColor: 'var(--color-water)',
     bgColor: 'rgba(61, 126, 166, 0.05)',
-    iconColor: 'var(--color-water)',
+    iconClassName: 'text-[var(--color-water)]',
     badgeVariant: 'moderate',
   },
   success: {
     icon: CheckCircle,
     borderColor: 'var(--color-healthy)',
     bgColor: 'rgba(74, 124, 89, 0.05)',
-    iconColor: 'var(--color-healthy)',
+    iconClassName: 'text-[var(--color-healthy)]',
     badgeVariant: 'healthy',
   },
 };
@@ -81,7 +81,7 @@ export function RecommendationBanner({
       <div className="flex items-start gap-3">
         {/* Icon */}
         <div className="flex-shrink-0">
-          <Icon className="h-5 w-5" style={{ color: config.iconColor }} />
+          <Icon className={`h-5 w-5 ${config.iconClassName}`} />
         </div>
 
         {/* Content */}

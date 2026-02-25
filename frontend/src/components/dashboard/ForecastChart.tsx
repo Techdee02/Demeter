@@ -200,7 +200,7 @@ interface CustomTooltipProps {
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
 
-  const data = payload[0]?.payload as ForecastDataPoint;
+  const data = (payload[0] as any)?.payload as ForecastDataPoint;
   
   return (
     <div className="bg-[var(--bg-card)] border border-[var(--color-border)] rounded-lg shadow-lg p-3">

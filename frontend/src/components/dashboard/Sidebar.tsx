@@ -9,9 +9,11 @@ import {
   Droplets, 
   Settings,
   FileText,
-  HelpCircle
+  HelpCircle,
+  X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/Button';
 
 interface NavItem {
   label: string;
@@ -52,47 +54,110 @@ const navItems: NavItem[] = [
   },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-[280px] border-r border-[var(--color-border)] bg-[var(--bg-card)] overflow-y-auto">
-      <div className="flex flex-col h-full">
-        {/* Navigation */}
-        <nav className="flex-1 space-y-1 p-4">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = pathname === item.href;
-            
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors',
-                  isActive
-                    ? 'bg-[var(--color-primary)] text-white shadow-md'
-                    : 'text-[var(--color-bark)] hover:bg-[var(--color-dust)] hover:text-[var(--color-soil)]'
-                )}
-              >
-                <Icon className="h-5 w-5" />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+    <>
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:block fixed left-0 top-16 h-[calc(100vh-4rem)] w-[280px] border-r border-[var(--color-border)] bg-[var(--bg-card)] overflow-y-auto">
+        <div className="flex flex-col h-full">
+          {/* Navigation */}
+          <nav className="flex-1 space-y-1 p-4">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href;
+              
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors',
+                    isActive
+                      ? 'bg-[var(--color-primary)] text-white shadow-md'
+                      : 'text-[var(--color-bark)] hover:bg-[var(--color-dust)] hover:text-[var(--color-soil)]'
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-[var(--color-border)]">
-          <Link
-            href="/help"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-[var(--color-bark)] hover:bg-[var(--color-dust)] hover:text-[var(--color-soil)] transition-colors"
-          >
-            <HelpCircle className="h-5 w-5" />
-            Help & Support
-          </Link>
+          {/* Footer */}
+          <div className="p-4 border-t border-[var(--color-border)]">
+            <Link
+              href="/help"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-[var(--color-bark)] hover:bg-[var(--color-dust)] hover:text-[var(--color-soil)] transition-colors"
+            >
+              <HelpCircle className="h-5 w-5" />
+              Help & Support
+            </Link>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+
+      {/* Mobile Drawer */}
+      <aside 
+        className={cn(
+          'lg:hidden fixed left-0 top-16 h-[calc(100vh-4rem)] w-[280px] border-r border-[var(--color-border)] bg-[var(--bg-card)] overflow-y-auto z-50 transition-transform duration-300',
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        <div className="flex flex-col h-full">
+          {/* Header with Close Button */}
+          <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)]">
+            <h2 className="font-display text-lg font-bold text-[var(--color-soil)]">Menu</h2>
+            <Button variant="ghost" size="icon" onClick={onClose}>
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 space-y-1 p-4">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href;
+              
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className={cn(
+                    'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors',
+                    isActive
+                      ? 'bg-[var(--color-primary)] text-white shadow-md'
+                      : 'text-[var(--color-bark)] hover:bg-[var(--color-dust)] hover:text-[var(--color-soil)]'
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Footer */}
+          <div className="p-4 border-t border-[var(--color-border)]">
+            <Link
+              href="/help"
+              onClick={onClose}
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-[var(--color-bark)] hover:bg-[var(--color-dust)] hover:text-[var(--color-soil)] transition-colors"
+            >
+              <HelpCircle className="h-5 w-5" />
+              Help & Support
+            </Link>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }

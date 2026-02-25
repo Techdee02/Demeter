@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Droplets, CloudRain, Sun, Leaf, Play, RotateCcw, TrendingUp, TrendingDown } from 'lucide-react';
-import { ScenarioType } from '@/types';
+import { ScenarioType } from '@/lib/api';
 
 interface SimulationScenario {
   id: ScenarioType;
