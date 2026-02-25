@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  /* Color Tokens - Demeter Design System */
+  --color-primary: #C65D3B;
+  --color-primary-hover: #B5522F;
+  --color-soil: #2D1B0E;
+  --color-gold: #D4A853;
+  --color-leaf: #4A7C59;
+  --color-dust: #E8DFD0;
+  --color-bark: #8B7355;
+  --color-cloud: #6B7B8C;
+  --color-water: #3D7EA6;
+  
+  /* Risk Colors */
+  --color-critical: #B8352B;
+  --color-severe: #D97B3D;
+  --color-moderate: #D4A853;
+  --color-low: #7A9E7E;
+  --color-healthy: #4A7C59;
+  
+  /* Backgrounds */
+  --bg-page: #F5F0E8;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #FFFFFF;
+  
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+  --space-10: 64px;
+  
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 200ms ease-out;
+  --transition-slow: 300ms ease-out;
+}
+
+@theme inline {
+  /* Colors */
+  --color-background: var(--bg-page);
+  --color-foreground: var(--color-soil);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-terracotta: var(--color-primary);
+  --color-gold: var(--color-gold);
+  --color-leaf: var(--color-leaf);
+  --color-dust: var(--color-dust);
+  --color-bark: var(--color-bark);
+  --color-cloud: var(--color-cloud);
+  --color-water: var(--color-water);
+  
+  /* Risk status colors */
+  --color-critical: var(--color-critical);
+  --color-severe: var(--color-severe);
+  --color-moderate: var(--color-moderate);
+  --color-low: var(--color-low);
+  --color-healthy: var(--color-healthy);
+  
+  /* Fonts */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'DM Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  
+  /* Spacing */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+  --spacing-10: var(--space-10);
+  
+  /* Border radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(45, 27, 14, 0.05);
+  --shadow-md: 0 2px 8px rgba(45, 27, 14, 0.08);
+  --shadow-lg: 0 8px 24px rgba(45, 27, 14, 0.12);
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--color-soil);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global utility classes */
+.text-balance {
+  text-wrap: balance;
+}
+
+.transition-base {
+  transition: var(--transition-base);
+}
+
+.transition-fast {
+  transition: var(--transition-fast);
+}
+
+.transition-slow {
+  transition: var(--transition-slow);
+}
