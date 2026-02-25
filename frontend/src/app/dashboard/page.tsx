@@ -1,9 +1,16 @@
-import { AppLayout, RiskGauge, RiskBreakdown, SensorCard } from '@/components/dashboard';
+import { 
+  AppLayout, 
+  RiskGauge, 
+  RiskBreakdown, 
+  SensorCard, 
+  SimulationPanel,
+  ForecastChart,
+  RecommendationBanner 
+} from '@/components/dashboard';
 import { FarmDigitalTwin } from '@/components/3d';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { AlertCircle } from 'lucide-react';
 
 export default function DashboardPage() {
   return (
@@ -27,23 +34,21 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Alert Banner */}
-        <Card variant="elevated" className="border-l-4 border-[var(--color-moderate)]">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-[var(--color-moderate)] mt-0.5" />
-              <div className="flex-1">
-                <p className="font-medium text-[var(--color-soil)]">
-                  Moderate water stress predicted in 3 days
-                </p>
-                <p className="text-sm text-[var(--color-bark)] mt-1">
-                  Consider irrigation on Day 72. Expected 5% yield improvement if action taken.
-                </p>
-              </div>
-              <Button variant="outline" size="sm">View Details</Button>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Recommendation Banner */}
+        <RecommendationBanner
+          severity="warning"
+          title="Moderate water stress predicted in 3 days"
+          description="Consider irrigation on Day 75. Soil moisture projected to drop below optimal range."
+          metadata={{
+            daysUntil: 3,
+            impactPercent: 5,
+            confidence: 85,
+          }}
+          action={{
+            label: 'View Details',
+            onClick: () => console.log('View details clicked'),
+          }}
+        />
 
         {/* Main Grid Layout */}
         <div className="grid grid-cols-12 gap-6">
@@ -140,28 +145,7 @@ export default function DashboardPage() {
 
           {/* Right Column - Simulation Panel */}
           <div className="col-span-12 lg:col-span-3 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">What-If Simulator</CardTitle>
-                <CardDescription>Test scenarios</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start" size="sm">
-                    💧 Add Irrigation
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start" size="sm">
-                    🌧️ Heavy Rainfall
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start" size="sm">
-                    ☀️ Heat Wave
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start" size="sm">
-                    🌱 Apply Fertilizer
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <SimulationPanel />
 
             <Card>
               <CardHeader>
@@ -208,31 +192,14 @@ export default function DashboardPage() {
 
           {/* Bottom Row - Forecast Chart */}
           <div className="col-span-12">
-            <Card variant="elevated">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>14-Day Forecast</CardTitle>
-                    <CardDescription>Predicted stress levels and weather conditions</CardDescription>
-                  </div>
-                  <Button variant="outline" size="sm">View Details</Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64 bg-[var(--color-dust)] rounded-lg flex items-center justify-center">
-                  <p className="text-[var(--color-bark)]">
-                    Recharts forecast visualization will appear here
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <ForecastChart />
           </div>
         </div>
 
         {/* Status Badge */}
         <div className="text-center pt-4">
           <Badge variant="primary" size="lg">
-            ✓ 3D Farm Digital Twin Complete | Tasks 8-10/18
+            ✓ Dashboard Components Complete | Tasks 1-13/18
           </Badge>
         </div>
       </div>
