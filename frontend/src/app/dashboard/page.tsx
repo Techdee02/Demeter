@@ -1,4 +1,5 @@
 import { AppLayout, RiskGauge, RiskBreakdown, SensorCard } from '@/components/dashboard';
+import { FarmDigitalTwin } from '@/components/3d';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -121,18 +122,12 @@ export default function DashboardPage() {
                   Interactive 3D visualization · Growth Stage: V12 (Tasseling)
                 </CardDescription>
               </div>
-              <div className="aspect-square bg-gradient-to-br from-[var(--color-dust)] to-[var(--color-leaf)]/10">
-                <div className="h-full flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="text-6xl mb-4">🌾</div>
-                    <p className="text-[var(--color-bark)] font-medium">
-                      3D Farm Scene
-                    </p>
-                    <p className="text-sm text-[var(--color-bark)]/70 mt-2">
-                      Three.js visualization loading...
-                    </p>
-                  </div>
-                </div>
+              <div className="aspect-square">
+                <FarmDigitalTwin 
+                  growthStage={0.8} 
+                  healthPercentage={87}
+                  className="w-full h-full"
+                />
               </div>
               <div className="p-4 bg-[var(--bg-card)] border-t border-[var(--color-border)]">
                 <div className="flex items-center justify-between text-sm">
@@ -237,7 +232,7 @@ export default function DashboardPage() {
         {/* Status Badge */}
         <div className="text-center pt-4">
           <Badge variant="primary" size="lg">
-            ✓ RiskGauge & SensorCards Complete | Tasks 6-7/18
+            ✓ 3D Farm Digital Twin Complete | Tasks 8-10/18
           </Badge>
         </div>
       </div>
