@@ -57,14 +57,14 @@ export default function DashboardPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 animate-fade-in">
+      <div className="space-y-8 animate-fade-in">
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 animate-slide-in-up">
           <div>
-            <h1 className="font-display text-3xl font-bold text-[var(--color-soil)]">
+            <h1 className="font-display text-3xl font-bold text-[var(--color-soil)] tracking-tight">
               Farm Dashboard
             </h1>
-            <p className="text-[var(--color-bark)] mt-1">
+            <p className="text-[var(--color-bark)] mt-1.5 text-[15px]">
               {farmData.name} · {farmData.location.region}, {farmData.location.country}
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function DashboardPage() {
             <Badge variant="healthy" size="lg">
               Overall Health: {farmData.healthPercentage}%
             </Badge>
-            <Button variant="primary">Run Simulation</Button>
+            <Button variant="primary" className="shadow-[0_2px_8px_rgba(198,93,59,0.25)]">Run Simulation</Button>
           </div>
         </div>
 
@@ -97,11 +97,11 @@ export default function DashboardPage() {
         )}
 
         {/* Main Grid Layout */}
-        <div className="grid grid-cols-12 gap-6 stagger-fade">
+        <div className="grid grid-cols-12 gap-6 lg:gap-7 stagger-fade">
           {/* Left Column - Risk Gauge & Sensors */}
           <div className="col-span-12 lg:col-span-4 space-y-6">
             {/* Risk Gauge Card */}
-            <Card hover="glow">
+            <Card hover="glow" className="overflow-hidden">
               <CardHeader>
                 <CardTitle>Current Risk Level</CardTitle>
                 <CardDescription>7-day forecast analysis</CardDescription>
@@ -111,7 +111,7 @@ export default function DashboardPage() {
                   <RiskGauge value={riskData?.overallRisk || 0} size="lg" />
                 </div>
                 {riskData && (
-                  <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
+                  <div className="mt-4 pt-4 border-t border-[rgba(45,27,14,0.06)]">
                     <RiskBreakdown
                       items={riskData.breakdown.map(b => ({
                         label: b.type.replace('_', ' '),
@@ -173,24 +173,24 @@ export default function DashboardPage() {
 
           {/* Middle Column - 3D Farm Visualization */}
           <div className="col-span-12 lg:col-span-5 space-y-6">
-            <Card variant="elevated" padding="none" className="hover-lift">
-              <div className="p-6 border-b border-[var(--color-border)]">
+            <Card variant="elevated" padding="none" className="hover-lift overflow-hidden">
+              <div className="p-6 border-b border-[rgba(45,27,14,0.06)] bg-gradient-to-r from-white to-[#FDFCFA]">
                 <CardTitle>Farm Digital Twin</CardTitle>
-                <CardDescription className="mt-1">
+                <CardDescription className="mt-1.5">
                   Interactive 3D visualization · Growth Stage: {farmData.growthStage.replace('_', ' ')}
                 </CardDescription>
               </div>
-              <div className="aspect-square">
+              <div className="aspect-square bg-gradient-to-b from-[#FDFCFA] to-[#F8F4EF]">
                 <FarmDigitalTwin 
                   growthStage={farmData.healthPercentage / 100} 
                   healthPercentage={farmData.healthPercentage}
                   className="w-full h-full"
                 />
               </div>
-              <div className="p-4 bg-[var(--bg-card)] border-t border-[var(--color-border)]">
+              <div className="p-5 bg-white border-t border-[rgba(45,27,14,0.06)]">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[var(--color-bark)]">Healthy Plants</span>
-                  <span className="font-medium text-[var(--color-healthy)]">{farmData.healthyPlants.toLocaleString()} / {farmData.totalPlants.toLocaleString()}</span>
+                  <span className="text-[var(--color-bark)] font-medium">Healthy Plants</span>
+                  <span className="font-semibold text-[var(--color-healthy)]">{farmData.healthyPlants.toLocaleString()} / {farmData.totalPlants.toLocaleString()}</span>
                 </div>
               </div>
             </Card>
@@ -200,20 +200,20 @@ export default function DashboardPage() {
           <div className="col-span-12 lg:col-span-3 space-y-6">
             <SimulationPanel />
 
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle className="text-base">Growth Progress</CardTitle>
                 <CardDescription>Days to maturity</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div>
-                    <div className="flex items-center justify-between text-sm mb-2">
-                      <span className="text-[var(--color-bark)]">Day 72 of 120</span>
-                      <span className="font-medium text-[var(--color-soil)]">60%</span>
+                    <div className="flex items-center justify-between text-sm mb-2.5">
+                      <span className="text-[var(--color-bark)] font-medium">Day 72 of 120</span>
+                      <span className="font-semibold text-[var(--color-soil)]">60%</span>
                     </div>
-                    <div className="h-3 bg-[var(--color-dust)] rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-growth" style={{ width: '60%' }} />
+                    <div className="h-3 bg-[rgba(45,27,14,0.06)] rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-[var(--color-healthy)] to-[#5CAB7D] rounded-full shadow-[0_1px_3px_rgba(76,175,80,0.3)]" style={{ width: '60%' }} />
                     </div>
                   </div>
                   <p className="text-xs text-[var(--color-bark)]">
@@ -223,13 +223,13 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle className="text-base">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  <Button variant="primary" size="sm" className="w-full">
+                <div className="space-y-2.5">
+                  <Button variant="primary" size="sm" className="w-full shadow-[0_2px_8px_rgba(198,93,59,0.2)]">
                     Schedule Irrigation
                   </Button>
                   <Button variant="outline" size="sm" className="w-full">

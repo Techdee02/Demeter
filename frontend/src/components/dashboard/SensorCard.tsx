@@ -142,9 +142,9 @@ export function SensorCard({
           {/* Progress bar */}
           {percentage !== undefined && (
             <div className="mt-3">
-              <div className="h-2 bg-[var(--color-dust)] rounded-full overflow-hidden">
+              <div className="h-2.5 bg-[rgba(45,27,14,0.06)] rounded-full overflow-hidden">
                 <div 
-                  className="h-full rounded-full transition-all duration-500"
+                  className="h-full rounded-full transition-all duration-500 shadow-sm"
                   style={{ 
                     width: `${Math.min(100, Math.max(0, percentage))}%`,
                     backgroundColor: config.color,
@@ -152,7 +152,7 @@ export function SensorCard({
                 />
               </div>
               {minValue !== undefined && maxValue !== undefined && (
-                <div className="flex justify-between text-[10px] text-[var(--color-bark)] mt-1">
+                <div className="flex justify-between text-[10px] text-[var(--color-bark)] mt-1.5 font-medium">
                   <span>{minValue}{unit}</span>
                   <span>{maxValue}{unit}</span>
                 </div>
@@ -161,13 +161,13 @@ export function SensorCard({
           )}
 
           {/* Meta info */}
-          <div className="mt-3 pt-3 border-t border-[var(--color-border)]">
+          <div className="mt-3 pt-3 border-t border-[rgba(45,27,14,0.06)]">
             {optimalRange && (
-              <p className="text-xs text-[var(--color-bark)]">
+              <p className="text-xs text-[var(--color-bark)] font-medium">
                 Optimal range: {optimalRange}
               </p>
             )}
-            <p className="text-xs text-[var(--color-bark)]/70 mt-1">
+            <p className="text-[11px] text-[var(--color-bark)]/60 mt-1">
               Updated {lastUpdated}
             </p>
           </div>
@@ -190,21 +190,21 @@ export function SensorMiniCard({ type, value, unit, status }: SensorMiniCardProp
   const Icon = config.icon;
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-[var(--bg-card)] rounded-lg border border-[var(--color-border)]">
+    <div className="flex items-center gap-3 p-3.5 bg-white rounded-xl border border-[rgba(45,27,14,0.06)] shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all duration-200">
       <div 
-        className="p-2 rounded-lg"
-        style={{ backgroundColor: `color-mix(in srgb, ${config.color} 15%, transparent)` }}
+        className="p-2.5 rounded-xl"
+        style={{ backgroundColor: `color-mix(in srgb, ${config.color} 12%, transparent)` }}
       >
         <Icon className="h-4 w-4" style={{ color: config.color }} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-[var(--color-bark)] truncate">{config.label}</p>
+        <p className="text-xs text-[var(--color-bark)] truncate font-medium">{config.label}</p>
         <p className="font-semibold" style={{ color: config.color }}>
           {value}{unit}
         </p>
       </div>
       <div className={cn(
-        'w-2 h-2 rounded-full',
+        'w-2.5 h-2.5 rounded-full ring-2 ring-white',
         status === 'healthy' && 'bg-[var(--color-healthy)]',
         status === 'low' && 'bg-[var(--color-low)]',
         status === 'moderate' && 'bg-[var(--color-moderate)]',

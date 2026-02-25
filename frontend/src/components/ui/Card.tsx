@@ -3,14 +3,15 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const cardVariants = cva(
-  'rounded-lg transition-shadow',
+  'rounded-xl transition-all duration-300',
   {
     variants: {
       variant: {
-        default: 'bg-[var(--bg-card)] border border-[var(--color-border)] shadow-md',
-        elevated: 'bg-[var(--bg-elevated)] shadow-lg',
-        outline: 'border-2 border-[var(--color-border)]',
+        default: 'bg-white border border-[rgba(45,27,14,0.06)] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_16px_rgba(45,27,14,0.04)]',
+        elevated: 'bg-white shadow-[0_4px_20px_rgba(45,27,14,0.08),0_8px_40px_rgba(45,27,14,0.06)] border border-[rgba(255,255,255,0.8)]',
+        outline: 'border-2 border-[rgba(45,27,14,0.12)] bg-white/50',
         ghost: 'bg-transparent',
+        glass: 'bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_4px_30px_rgba(45,27,14,0.06)]',
       },
       padding: {
         none: 'p-0',
@@ -20,8 +21,9 @@ const cardVariants = cva(
       },
       hover: {
         none: '',
-        lift: 'hover:shadow-xl hover:-translate-y-1 transition-all',
-        glow: 'hover:shadow-lg hover:border-[var(--color-primary)]',
+        lift: 'hover:shadow-[0_8px_30px_rgba(45,27,14,0.1),0_4px_12px_rgba(45,27,14,0.04)] hover:-translate-y-0.5',
+        glow: 'hover:shadow-[0_0_30px_rgba(198,93,59,0.15)] hover:border-[rgba(198,93,59,0.2)]',
+        scale: 'hover:scale-[1.01]',
       }
     },
     defaultVariants: {
