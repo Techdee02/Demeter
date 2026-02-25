@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
@@ -8,13 +9,18 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--bg-page)] p-8">
       <div className="container-demeter">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h1 className="font-display text-5xl font-bold text-[var(--color-soil)] mb-3">
             Demeter UI Components
           </h1>
-          <p className="text-lg text-[var(--color-bark)]">
+          <p className="text-lg text-[var(--color-bark)] mb-6">
             Core component library for the Digital Twin platform
           </p>
+          <Link href="/dashboard">
+            <Button size="lg" variant="primary">
+              View Dashboard →
+            </Button>
+          </Link>
         </div>
 
         {/* Button Variants */}
