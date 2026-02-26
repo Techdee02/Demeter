@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: demeter
+  datasource:
+    url: jdbc:mysql://localhost:3306/demeter
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Henry123@#$
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+          ddl-auto: update
+    properties:
+            hibernate:
+            show_sql: true
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+
+debug: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security.web: DEBUG
+
+
+TWILIO:
+  ACCOUNT_SID: ${TWILIO.ACCOUNT_SID}
+  AUTH_TOKEN: ${TWILIO.AUTH_TOKEN}
+  PHONE_NUMBER: ${TWILIO.PHONE_NUMBER}
+
+WEATHER_API_KEY: ${WEATHER_API_KEY}
+POLY_ID: ${POLY_ID}
