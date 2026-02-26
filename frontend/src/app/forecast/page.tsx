@@ -581,7 +581,7 @@ function WeatherMetricCard({ icon: Icon, label, value, subtext, trend, trendValu
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${color}15` }}>
-            <Icon className="w-4.5 h-4.5" style={{ color }} />
+            <Icon className="w-5 h-5" style={{ color }} />
           </div>
           <div className="flex items-center gap-1" style={{ color: trendColor }}>
             <TrendIcon className="w-3.5 h-3.5" />

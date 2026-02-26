@@ -20,6 +20,7 @@ export const LANGUAGES = {
 
 export async function translateText(text: string, targetLanguage: Language): Promise<string> {
   if (targetLanguage === 'en') return text;
+  if (!AZURE_KEY) return text; // Return original text if API key not configured
 
   console.log(`[Translator] Translating to ${targetLanguage}:`, text.substring(0, 50));
 
@@ -58,6 +59,7 @@ export async function translateMultiple(
   targetLanguage: Language
 ): Promise<string[]> {
   if (targetLanguage === 'en') return texts;
+  if (!AZURE_KEY) return texts; // Return original texts if API key not configured
 
   console.log(`[Translator] Batch translating ${texts.length} texts to ${targetLanguage}`);
 

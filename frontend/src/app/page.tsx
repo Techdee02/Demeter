@@ -227,7 +227,11 @@ export default function LandingPage() {
                 {hero.cta1}
                 <ExternalLink className="w-5 h-5 ml-2" />
               </Button>
-              <Link href="/dashboard">
+              <a 
+                href="https://drive.google.com/file/d/1N1PsGJEA-jrUXj5WDd7hbj1jsRNPC0F4/view?usp=sharing" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
                 <Button 
                   variant="outline" 
                   size="lg"
@@ -235,7 +239,7 @@ export default function LandingPage() {
                 >
                   {hero.cta2}
                 </Button>
-              </Link>
+              </a>
             </div>
 
             {/* Quick Stats */}
