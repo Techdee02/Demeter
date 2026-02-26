@@ -531,7 +531,7 @@ export default function IrrigationPage() {
 
 // Status Card Component
 interface StatusCardProps {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   label: string;
   value: string;
   target: string;
@@ -545,7 +545,7 @@ function StatusCard({ icon: Icon, label, value, target, status, color }: StatusC
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${color}15` }}>
-            <Icon className="w-4.5 h-4.5" style={{ color }} />
+            <Icon className="w-5 h-5" style={{ color }} />
           </div>
           {status === 'positive' && <TrendingUp className="w-4 h-4 text-[var(--color-emerald)]" />}
           {status === 'below' && <TrendingDown className="w-4 h-4 text-[var(--color-primary)]" />}
@@ -674,7 +674,7 @@ function ScheduleCard({ schedule }: ScheduleCardProps) {
 
 // Weather Factor Card
 interface WeatherFactorCardProps {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   label: string;
   value: string;
   impact: string;
