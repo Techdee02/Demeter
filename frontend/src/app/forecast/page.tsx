@@ -563,7 +563,7 @@ export default function ForecastingPage() {
 
 // Weather Metric Card Component
 interface WeatherMetricCardProps {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   label: string;
   value: string;
   subtext: string;
@@ -597,7 +597,7 @@ function WeatherMetricCard({ icon: Icon, label, value, subtext, trend, trendValu
 
 // Season Milestone Component
 interface SeasonMilestoneProps {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   date: string;
   status: 'upcoming' | 'attention' | 'scheduled' | 'projected';
