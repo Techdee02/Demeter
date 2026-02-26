@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Sprout, User, Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import { FarmSelector, FarmSelectorCompact } from './FarmSelector';
 
 interface NavbarProps {
@@ -56,6 +57,7 @@ export function Navbar({ defaultFarmId = '1', onMenuClick }: NavbarProps) {
             />
           </div>
 
+          <LanguageSelector />
           <Button variant="ghost" size="icon" className="relative">
             <Bell className="h-5 w-5" />
             <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[var(--color-critical)]" />
