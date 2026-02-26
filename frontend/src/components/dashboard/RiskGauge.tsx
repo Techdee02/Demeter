@@ -1,31 +1,33 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 type LocalRiskCategory = 'critical' | 'severe' | 'moderate' | 'low' | 'healthy';
 
 interface RiskGaugeProps {
   value: number; // 0-100
   label?: string;
-  variant?: 'radial' | 'linear';
+  variant?: 'radial' | 'linear' | 'minimal';
   size?: 'sm' | 'md' | 'lg';
   showLabel?: boolean;
   animate?: boolean;
+  confidence?: number; // 0-100, optional confidence score
 }
 
 const riskColors: Record<LocalRiskCategory, string> = {
-  critical: 'var(--color-critical)',
-  severe: 'var(--color-severe)',
-  moderate: 'var(--color-moderate)',
-  low: 'var(--color-low)',
-  healthy: 'var(--color-healthy)',
+  critical: '#E2725B',
+  severe: '#F59E0B',
+  moderate: '#FBBF24',
+  low: '#34D399',
+  healthy: '#059669',
 };
 
 const riskLabels: Record<LocalRiskCategory, string> = {
-  critical: 'Critical',
-  severe: 'Severe',
+  critical: 'Critical Risk',
+  severe: 'High Risk',
   moderate: 'Moderate',
-  low: 'Low',
+  low: 'Low Risk',
   healthy: 'Healthy',
 };
 
@@ -38,18 +40,19 @@ function getRiskCategory(value: number): LocalRiskCategory {
 }
 
 const sizeConfig = {
-  sm: { radialSize: 120, strokeWidth: 8, fontSize: 'text-xl' },
-  md: { radialSize: 160, strokeWidth: 10, fontSize: 'text-3xl' },
-  lg: { radialSize: 200, strokeWidth: 12, fontSize: 'text-4xl' },
+  sm: { size: 100, strokeWidth: 4, fontSize: 'text-lg', confidenceSize: 'text-[10px]' },
+  md: { size: 140, strokeWidth: 5, fontSize: 'text-2xl', confidenceSize: 'text-[11px]' },
+  lg: { size: 180, strokeWidth: 6, fontSize: 'text-3xl', confidenceSize: 'text-xs' },
 };
 
 export function RiskGauge({
   value,
   label,
-  variant = 'radial',
+  variant = 'minimal',
   size = 'md',
   showLabel = true,
   animate = true,
+  confidence,
 }: RiskGaugeProps) {
   const clampedValue = Math.max(0, Math.min(100, value));
   const riskCategory = getRiskCategory(clampedValue);
@@ -66,19 +69,116 @@ export function RiskGauge({
         showLabel={showLabel}
         animate={animate}
         size={size}
+        confidence={confidence}
       />
     );
   }
 
+  if (variant === 'radial') {
+    return (
+      <RadialGauge
+        value={clampedValue}
+        color={color}
+        riskLabel={riskLabel}
+        showLabel={showLabel}
+        animate={animate}
+        config={config}
+        confidence={confidence}
+      />
+    );
+  }
+
+  // Minimal variant (default) - clean circular gauge
   return (
-    <RadialGauge
+    <MinimalGauge
       value={clampedValue}
       color={color}
       riskLabel={riskLabel}
       showLabel={showLabel}
       animate={animate}
       config={config}
+      confidence={confidence}
     />
+  );
+}
+
+interface MinimalGaugeProps {
+  value: number;
+  color: string;
+  riskLabel: string;
+  showLabel: boolean;
+  animate: boolean;
+  config: typeof sizeConfig.md;
+  confidence?: number;
+}
+
+function MinimalGauge({ value, color, riskLabel, showLabel, animate, config, confidence }: MinimalGaugeProps) {
+  const { size, strokeWidth, fontSize, confidenceSize } = config;
+  const radius = (size - strokeWidth * 2) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (value / 100) * circumference;
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div className="relative" style={{ width: size, height: size }}>
+        <svg width={size} height={size} className="transform -rotate-90">
+          {/* Background circle - very subtle */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="rgba(0,0,0,0.04)"
+            strokeWidth={strokeWidth}
+          />
+          {/* Value circle with gradient-like feel */}
+          <motion.circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            initial={animate ? { strokeDashoffset: circumference } : { strokeDashoffset }}
+            animate={{ strokeDashoffset }}
+            transition={{ duration: 1, ease: 'easeOut' }}
+            style={{ 
+              filter: `drop-shadow(0 0 8px ${color}40)`,
+            }}
+          />
+        </svg>
+        
+        {/* Center content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <motion.span 
+            className={cn(fontSize, 'font-semibold tracking-tight')}
+            style={{ color }}
+            initial={animate ? { opacity: 0, scale: 0.8 } : {}}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.4 }}
+          >
+            {Math.round(value)}
+          </motion.span>
+          <span className="text-[var(--color-stone)] text-[11px] -mt-0.5">
+            Risk Index
+          </span>
+        </div>
+      </div>
+      
+      {/* Label & Confidence */}
+      <div className="text-center mt-1">
+        {showLabel && (
+          <p className="text-[13px] font-medium text-[var(--color-soil)]">{riskLabel}</p>
+        )}
+        {confidence !== undefined && (
+          <p className={cn(confidenceSize, 'text-[var(--color-stone)] mt-0.5')}>
+            <span className="font-semibold text-[var(--color-soil)]">{confidence}%</span> Certainty
+          </p>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -89,20 +189,16 @@ interface RadialGaugeProps {
   showLabel: boolean;
   animate: boolean;
   config: typeof sizeConfig.md;
+  confidence?: number;
 }
 
-function RadialGauge({ value, color, riskLabel, showLabel, animate, config }: RadialGaugeProps) {
-  const { radialSize, strokeWidth, fontSize } = config;
-  const radius = (radialSize - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-  
-  // Create a semi-circle (180 degrees = half circumference)
-  const halfCircumference = circumference / 2;
-  const strokeDashoffset = halfCircumference - (value / 100) * halfCircumference;
+function RadialGauge({ value, color, riskLabel, showLabel, animate, config, confidence }: RadialGaugeProps) {
+  const { size: radialSize, strokeWidth, fontSize, confidenceSize } = config;
+  const radius = (radialSize - strokeWidth * 2) / 2;
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative" style={{ width: radialSize, height: radialSize / 2 + 20 }}>
+      <div className="relative" style={{ width: radialSize, height: radialSize / 2 + 16 }}>
         <svg
           width={radialSize}
           height={radialSize / 2 + strokeWidth}
@@ -112,52 +208,47 @@ function RadialGauge({ value, color, riskLabel, showLabel, animate, config }: Ra
           <path
             d={describeArc(radialSize / 2, radialSize / 2, radius, 180, 360)}
             fill="none"
-            stroke="var(--color-dust)"
+            stroke="rgba(0,0,0,0.04)"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
           {/* Value arc */}
-          <path
+          <motion.path
             d={describeArc(radialSize / 2, radialSize / 2, radius, 180, 180 + (value / 100) * 180)}
             fill="none"
             stroke={color}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
-            className={animate ? 'transition-all duration-700 ease-out' : ''}
+            initial={animate ? { pathLength: 0 } : {}}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            style={{ filter: `drop-shadow(0 0 6px ${color}30)` }}
           />
-          {/* Tick marks */}
-          {[0, 25, 50, 75, 100].map((tick) => {
-            const angle = 180 + (tick / 100) * 180;
-            const tickRadius = radius + strokeWidth / 2 + 8;
-            const x = radialSize / 2 + tickRadius * Math.cos((angle * Math.PI) / 180);
-            const y = radialSize / 2 + tickRadius * Math.sin((angle * Math.PI) / 180);
-            return (
-              <text
-                key={tick}
-                x={x}
-                y={y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="fill-[var(--color-bark)] text-[10px]"
-              >
-                {tick}
-              </text>
-            );
-          })}
         </svg>
         {/* Center value */}
         <div
           className="absolute left-1/2 -translate-x-1/2 text-center"
           style={{ bottom: 0 }}
         >
-          <div className={cn(fontSize, 'font-bold')} style={{ color }}>
-            {Math.round(value)}%
+          <div className={cn(fontSize, 'font-semibold tracking-tight')} style={{ color }}>
+            {Math.round(value)}
           </div>
-          {showLabel && (
-            <div className="text-sm text-[var(--color-bark)] mt-1">{riskLabel}</div>
-          )}
         </div>
       </div>
+      
+      {/* Label & Confidence */}
+      {(showLabel || confidence !== undefined) && (
+        <div className="text-center mt-2">
+          {showLabel && (
+            <p className="text-[13px] font-medium text-[var(--color-soil)]">{riskLabel}</p>
+          )}
+          {confidence !== undefined && (
+            <p className={cn(confidenceSize, 'text-[var(--color-stone)]')}>
+              <span className="font-semibold text-[var(--color-soil)]">{confidence}%</span> Certainty
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -188,39 +279,65 @@ interface LinearGaugeProps {
   showLabel: boolean;
   animate: boolean;
   size: 'sm' | 'md' | 'lg';
+  confidence?: number;
 }
 
 const linearSizeConfig = {
-  sm: { height: 'h-2', spacing: 'space-y-1' },
-  md: { height: 'h-3', spacing: 'space-y-2' },
-  lg: { height: 'h-4', spacing: 'space-y-3' },
+  sm: { height: 'h-1.5', spacing: 'gap-1.5' },
+  md: { height: 'h-2', spacing: 'gap-2' },
+  lg: { height: 'h-2.5', spacing: 'gap-2.5' },
 };
 
-function LinearGauge({ value, color, riskLabel, showLabel, animate, size }: LinearGaugeProps) {
+function LinearGauge({ value, color, riskLabel, showLabel, animate, size, confidence }: LinearGaugeProps) {
   const config = linearSizeConfig[size];
   
   return (
-    <div className={cn('w-full', config.spacing)}>
+    <div className={cn('w-full flex flex-col', config.spacing)}>
       {showLabel && (
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-[var(--color-bark)]">{riskLabel}</span>
-          <span className="font-medium" style={{ color }}>{Math.round(value)}%</span>
+        <div className="flex items-center justify-between">
+          <span className="text-[13px] text-[var(--color-stone)]">{riskLabel}</span>
+          <span className="text-[13px] font-semibold" style={{ color }}>{Math.round(value)}%</span>
         </div>
       )}
-      <div className={cn('w-full bg-[var(--color-dust)] rounded-full overflow-hidden', config.height)}>
-        <div
-          className={cn(
-            'h-full rounded-full',
-            animate && 'transition-all duration-700 ease-out'
-          )}
-          style={{ width: `${value}%`, backgroundColor: color }}
+      <div className={cn('w-full bg-black/[0.03] rounded-full overflow-hidden', config.height)}>
+        <motion.div
+          className="h-full rounded-full"
+          style={{ backgroundColor: color }}
+          initial={animate ? { width: 0 } : { width: `${value}%` }}
+          animate={{ width: `${value}%` }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         />
       </div>
-      {/* Gradient legend */}
-      <div className="flex justify-between text-[10px] text-[var(--color-bark)]">
-        <span>Healthy</span>
-        <span>Critical</span>
-      </div>
+      {confidence !== undefined && (
+        <p className="text-[11px] text-[var(--color-stone)]">
+          <span className="font-semibold text-[var(--color-soil)]">{confidence}%</span> Certainty
+        </p>
+      )}
+    </div>
+  );
+}
+
+// Compact risk indicator for cards
+interface RiskIndicatorProps {
+  value: number;
+  size?: 'xs' | 'sm';
+}
+
+export function RiskIndicator({ value, size = 'sm' }: RiskIndicatorProps) {
+  const category = getRiskCategory(value);
+  const color = riskColors[category];
+  const dimensions = size === 'xs' ? 'w-6 h-6' : 'w-8 h-8';
+  const fontSize = size === 'xs' ? 'text-[9px]' : 'text-[10px]';
+  
+  return (
+    <div 
+      className={cn(dimensions, 'rounded-full flex items-center justify-center font-semibold', fontSize)}
+      style={{ 
+        backgroundColor: `${color}15`,
+        color: color,
+      }}
+    >
+      {Math.round(value)}
     </div>
   );
 }
@@ -230,6 +347,7 @@ interface RiskBreakdownProps {
   items: Array<{
     label: string;
     value: number;
+    confidence?: number;
   }>;
   size?: 'sm' | 'md';
 }
@@ -245,6 +363,7 @@ export function RiskBreakdown({ items, size = 'sm' }: RiskBreakdownProps) {
           variant="linear"
           size={size}
           showLabel
+          confidence={item.confidence}
         />
       ))}
     </div>

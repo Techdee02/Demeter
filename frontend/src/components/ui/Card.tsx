@@ -3,29 +3,32 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const cardVariants = cva(
-  'rounded-2xl transition-all duration-300',
+  'rounded-2xl transition-all duration-300 ease-out',
   {
     variants: {
       variant: {
-        default: 'bg-white/90 backdrop-blur-sm border border-[rgba(45,31,26,0.06)] shadow-[0_2px_8px_rgba(0,0,0,0.04),0_8px_24px_rgba(45,31,26,0.05)]',
-        elevated: 'bg-white shadow-[0_8px_30px_rgba(45,31,26,0.1),0_4px_16px_rgba(45,31,26,0.06)] border border-white',
-        outline: 'border-2 border-[rgba(45,31,26,0.1)] bg-white/70 backdrop-blur-sm',
-        ghost: 'bg-transparent',
-        glass: 'bg-white/75 backdrop-blur-xl border border-white/60 shadow-[0_8px_32px_rgba(45,31,26,0.08)]',
-        gradient: 'bg-gradient-to-br from-white via-white to-[#FFF8F5] border border-[rgba(232,107,69,0.1)] shadow-[0_8px_30px_rgba(232,107,69,0.08)]',
+        default: 'bg-white/70 backdrop-blur-md border border-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.03),0_4px_20px_rgba(0,0,0,0.04)]',
+        elevated: 'bg-white/85 backdrop-blur-lg border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.06)]',
+        glass: 'bg-white/60 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.04)]',
+        solid: 'bg-white border border-[rgba(28,25,23,0.06)] shadow-[0_1px_3px_rgba(0,0,0,0.02),0_4px_16px_rgba(0,0,0,0.03)]',
+        bento: 'bg-white/75 backdrop-blur-md border border-white/25 shadow-[var(--shadow-bento)]',
+        accent: 'bg-gradient-to-br from-white/80 to-white/60 backdrop-blur-md border border-[rgba(226,114,91,0.1)] shadow-[0_8px_30px_rgba(226,114,91,0.06)]',
+        ghost: 'bg-transparent border-none shadow-none',
       },
       padding: {
         none: 'p-0',
+        xs: 'p-3',
         sm: 'p-4',
-        md: 'p-6',
-        lg: 'p-8',
+        md: 'p-5',
+        lg: 'p-6',
+        xl: 'p-8',
       },
       hover: {
         none: '',
-        lift: 'hover:shadow-[0_12px_40px_rgba(45,31,26,0.12)] hover:-translate-y-1 cursor-pointer',
-        glow: 'hover:shadow-[0_0_40px_rgba(232,107,69,0.2)] hover:border-[rgba(232,107,69,0.25)] cursor-pointer',
-        scale: 'hover:scale-[1.02] cursor-pointer',
-        bright: 'hover:bg-white hover:shadow-[0_12px_40px_rgba(45,31,26,0.12)] cursor-pointer',
+        lift: 'hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 cursor-pointer',
+        glow: 'hover:shadow-[0_0_40px_rgba(226,114,91,0.12)] hover:border-[rgba(226,114,91,0.2)] cursor-pointer',
+        scale: 'hover:scale-[1.015] cursor-pointer',
+        subtle: 'hover:bg-white/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] cursor-pointer',
       }
     },
     defaultVariants: {
@@ -54,12 +57,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = 'Card';
 
-// Card subcomponents
+// Card subcomponents with premium typography
 const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-col space-y-1.5', className)}
+      className={cn('flex flex-col space-y-1', className)}
       {...props}
     />
   )
@@ -70,7 +73,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('font-display text-xl font-semibold text-[var(--color-soil)]', className)}
+      className={cn('text-[15px] font-semibold tracking-tight text-[var(--color-soil)]', className)}
       {...props}
     />
   )
@@ -81,7 +84,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLPara
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn('text-sm text-[var(--color-bark)]', className)}
+      className={cn('text-[13px] text-[var(--color-stone)] leading-relaxed', className)}
       {...props}
     />
   )

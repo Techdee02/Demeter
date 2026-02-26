@@ -1,7 +1,8 @@
 'use client';
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, ComposedChart, Legend } from 'recharts';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, ComposedChart, ReferenceLine } from 'recharts';
+import { Card, CardContent } from '@/components/ui/Card';
+import { TrendingUp, Droplets, Thermometer, CloudRain } from 'lucide-react';
 
 interface ForecastDataPoint {
   day: string;
@@ -10,6 +11,7 @@ interface ForecastDataPoint {
   soilMoisture: number;
   temperature: number;
   rainfall: number;
+  ghostLine?: number; // For action preview
 }
 
 interface ForecastChartProps {
@@ -17,6 +19,8 @@ interface ForecastChartProps {
   showTemperature?: boolean;
   showMoisture?: boolean;
   showRainfall?: boolean;
+  ghostLineData?: number[];
+  ghostLineColor?: string;
 }
 
 // Sample data for 14-day forecast
@@ -37,78 +41,115 @@ const defaultData: ForecastDataPoint[] = [
   { day: 'D+13', date: 'Mar 10', riskScore: 20, soilMoisture: 36, temperature: 29, rainfall: 3 },
 ];
 
+// Premium color palette
 const COLORS = {
-  risk: '#C65D3B',      // Terracotta
-  moisture: '#3D7EA6',  // Water blue
-  temperature: '#D97B3D', // Warm orange
-  rainfall: '#6B7B8C',  // Cloud gray
-  grid: '#E8DFD0',      // Dust
-  text: '#8B7355',      // Bark
+  risk: '#E2725B',      // Burnt sienna
+  moisture: '#3B82F6',  // Blue
+  temperature: '#F59E0B', // Amber
+  rainfall: '#8B5CF6',  // Purple
+  grid: 'rgba(0,0,0,0.04)',
+  text: '#78716C',
+  ghostLine: '#059669',
 };
 
 export function ForecastChart({ 
   data = defaultData,
   showTemperature = true,
   showMoisture = true,
-  showRainfall = true,
+  showRainfall = false,
+  ghostLineData,
+  ghostLineColor = COLORS.ghostLine,
 }: ForecastChartProps) {
+  // Merge ghost line data if provided
+  const chartData = data.map((point, idx) => ({
+    ...point,
+    ghostLine: ghostLineData?.[idx] !== undefined 
+      ? point.riskScore + ghostLineData[idx] 
+      : undefined,
+  }));
+
+  const peakRisk = Math.max(...data.map(d => d.riskScore));
+  const peakDay = data.find(d => d.riskScore === peakRisk);
+
   return (
-    <Card variant="elevated">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+    <Card variant="bento" className="overflow-hidden">
+      <CardContent className="p-5">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
           <div>
-            <CardTitle>14-Day Stress Forecast</CardTitle>
-            <CardDescription>Predicted risk levels and weather conditions</CardDescription>
+            <h3 className="text-[15px] font-semibold text-[var(--color-soil)] tracking-tight">
+              14-Day Forecast
+            </h3>
+            <p className="text-[12px] text-[var(--color-stone)]">
+              Risk trajectory & conditions
+            </p>
           </div>
-          <div className="flex gap-3 text-xs">
-            <LegendItem color={COLORS.risk} label="Risk Score" />
-            {showMoisture && <LegendItem color={COLORS.moisture} label="Moisture" />}
-            {showTemperature && <LegendItem color={COLORS.temperature} label="Temperature" />}
-            {showRainfall && <LegendItem color={COLORS.rainfall} label="Rainfall" />}
+          
+          {/* Compact legend */}
+          <div className="flex items-center gap-3">
+            <LegendDot color={COLORS.risk} label="Risk" />
+            {showMoisture && <LegendDot color={COLORS.moisture} label="Moisture" />}
+            {showTemperature && <LegendDot color={COLORS.temperature} label="Temp" />}
+            {ghostLineData && <LegendDot color={ghostLineColor} label="Projected" dashed />}
           </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="h-72">
+
+        {/* Chart */}
+        <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+            <ComposedChart data={chartData} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
               <defs>
-                <linearGradient id="riskGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={COLORS.risk} stopOpacity={0.3} />
-                  <stop offset="95%" stopColor={COLORS.risk} stopOpacity={0} />
+                <linearGradient id="riskGradientPremium" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={COLORS.risk} stopOpacity={0.15} />
+                  <stop offset="100%" stopColor={COLORS.risk} stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="moistureGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={COLORS.moisture} stopOpacity={0.1} />
+                  <stop offset="100%" stopColor={COLORS.moisture} stopOpacity={0} />
                 </linearGradient>
               </defs>
               
-              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} vertical={false} />
+              <CartesianGrid 
+                strokeDasharray="0" 
+                stroke={COLORS.grid} 
+                vertical={false}
+              />
+              
+              {/* Warning threshold line */}
+              <ReferenceLine 
+                y={40} 
+                yAxisId="risk" 
+                stroke="#F59E0B" 
+                strokeDasharray="4 4" 
+                strokeOpacity={0.4}
+              />
               
               <XAxis 
                 dataKey="day" 
-                tick={{ fill: COLORS.text, fontSize: 11 }}
-                axisLine={{ stroke: COLORS.grid }}
+                tick={{ fill: COLORS.text, fontSize: 10 }}
+                axisLine={false}
                 tickLine={false}
+                dy={8}
               />
               
               <YAxis 
                 yAxisId="risk"
                 domain={[0, 100]}
-                tick={{ fill: COLORS.text, fontSize: 11 }}
+                tick={{ fill: COLORS.text, fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(value) => `${value}%`}
+                tickFormatter={(value) => `${value}`}
+                width={30}
               />
               
               <YAxis 
                 yAxisId="temp"
                 orientation="right"
                 domain={[20, 40]}
-                hide={!showTemperature}
-                tick={{ fill: COLORS.text, fontSize: 11 }}
-                axisLine={false}
-                tickLine={false}
-                tickFormatter={(value) => `${value}°`}
+                hide
               />
 
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<PremiumTooltip />} />
 
               {/* Risk area fill */}
               <Area
@@ -116,9 +157,23 @@ export function ForecastChart({
                 type="monotone"
                 dataKey="riskScore"
                 stroke={COLORS.risk}
-                fill="url(#riskGradient)"
-                strokeWidth={2}
+                fill="url(#riskGradientPremium)"
+                strokeWidth={1.5}
               />
+
+              {/* Ghost line for action preview */}
+              {ghostLineData && (
+                <Line
+                  yAxisId="risk"
+                  type="monotone"
+                  dataKey="ghostLine"
+                  stroke={ghostLineColor}
+                  strokeWidth={1.5}
+                  strokeDasharray="6 4"
+                  strokeOpacity={0.6}
+                  dot={false}
+                />
+              )}
 
               {/* Soil moisture line */}
               {showMoisture && (
@@ -127,9 +182,9 @@ export function ForecastChart({
                   type="monotone"
                   dataKey="soilMoisture"
                   stroke={COLORS.moisture}
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   dot={false}
-                  strokeDasharray="5 5"
+                  strokeOpacity={0.7}
                 />
               )}
 
@@ -140,28 +195,45 @@ export function ForecastChart({
                   type="monotone"
                   dataKey="temperature"
                   stroke={COLORS.temperature}
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   dot={false}
+                  strokeOpacity={0.6}
                 />
               )}
-
-              {/* Rainfall bars would go here if we used BarChart */}
             </ComposedChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Critical threshold marker */}
-        <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
-          <div className="flex items-center justify-between text-xs">
-            <div className="flex items-center gap-4">
-              <ThresholdIndicator level="Low" range="0-20%" color="#4A7C59" />
-              <ThresholdIndicator level="Moderate" range="20-40%" color="#D4A853" />
-              <ThresholdIndicator level="High" range="40-60%" color="#D97B3D" />
-              <ThresholdIndicator level="Critical" range="60%+" color="#B8352B" />
-            </div>
-            <span className="text-[var(--color-bark)]">
-              Peak risk: Day 4 (42%)
-            </span>
+        {/* Bottom stats bar */}
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-black/[0.04]">
+          <div className="flex items-center gap-4">
+            <StatPill 
+              icon={TrendingUp} 
+              label="Peak"
+              value={`${peakRisk}%`}
+              subtext={peakDay?.day || ''}
+              color={COLORS.risk}
+            />
+            <StatPill 
+              icon={Droplets} 
+              label="Avg Moisture"
+              value={`${Math.round(data.reduce((a, b) => a + b.soilMoisture, 0) / data.length)}%`}
+              color={COLORS.moisture}
+            />
+            <StatPill 
+              icon={Thermometer} 
+              label="Avg Temp"
+              value={`${Math.round(data.reduce((a, b) => a + b.temperature, 0) / data.length)}°`}
+              color={COLORS.temperature}
+            />
+          </div>
+          
+          {/* Risk zones indicator */}
+          <div className="flex items-center gap-1">
+            <div className="h-1.5 w-8 rounded-full bg-[#059669]" />
+            <div className="h-1.5 w-8 rounded-full bg-[#FBBF24]" />
+            <div className="h-1.5 w-8 rounded-full bg-[#F59E0B]" />
+            <div className="h-1.5 w-8 rounded-full bg-[#E2725B]" />
           </div>
         </div>
       </CardContent>
@@ -169,25 +241,50 @@ export function ForecastChart({
   );
 }
 
-function LegendItem({ color, label }: { color: string; label: string }) {
+function LegendDot({ color, label, dashed }: { color: string; label: string; dashed?: boolean }) {
   return (
-    <div className="flex items-center gap-1">
-      <div className="w-3 h-0.5 rounded" style={{ backgroundColor: color }} />
-      <span className="text-[var(--color-bark)]">{label}</span>
+    <div className="flex items-center gap-1.5">
+      <div 
+        className={`w-3 h-[3px] rounded-full ${dashed ? 'border border-current' : ''}`}
+        style={{ 
+          backgroundColor: dashed ? 'transparent' : color,
+          borderColor: dashed ? color : undefined,
+          borderStyle: dashed ? 'dashed' : undefined,
+        }} 
+      />
+      <span className="text-[11px] text-[var(--color-stone)]">{label}</span>
     </div>
   );
 }
 
-function ThresholdIndicator({ level, range, color }: { level: string; range: string; color: string }) {
+interface StatPillProps {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  subtext?: string;
+  color: string;
+}
+
+function StatPill({ icon: Icon, label, value, subtext, color }: StatPillProps) {
   return (
-    <div className="flex items-center gap-1">
-      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-      <span className="text-[var(--color-bark)]">{level}: {range}</span>
+    <div className="flex items-center gap-2">
+      <div 
+        className="w-6 h-6 rounded-md flex items-center justify-center"
+        style={{ backgroundColor: `${color}12`, color }}
+      >
+        <Icon className="w-3 h-3" />
+      </div>
+      <div>
+        <p className="text-[12px] font-semibold text-[var(--color-soil)]">
+          {value}
+          {subtext && <span className="font-normal text-[var(--color-stone)]"> {subtext}</span>}
+        </p>
+      </div>
     </div>
   );
 }
 
-interface CustomTooltipProps {
+interface PremiumTooltipProps {
   active?: boolean;
   payload?: Array<{
     value: number;
@@ -197,61 +294,92 @@ interface CustomTooltipProps {
   label?: string;
 }
 
-function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+function PremiumTooltip({ active, payload, label }: PremiumTooltipProps) {
   if (!active || !payload?.length) return null;
 
   const data = (payload[0] as any)?.payload as ForecastDataPoint;
   
   return (
-    <div className="bg-[var(--bg-card)] border border-[var(--color-border)] rounded-lg shadow-lg p-3">
-      <p className="font-medium text-sm text-[var(--color-soil)]">{label} ({data?.date})</p>
-      <div className="mt-2 space-y-1 text-xs">
-        <div className="flex justify-between gap-4">
-          <span className="text-[var(--color-bark)]">Risk Score</span>
-          <span style={{ color: COLORS.risk }} className="font-medium">{data?.riskScore}%</span>
-        </div>
-        <div className="flex justify-between gap-4">
-          <span className="text-[var(--color-bark)]">Soil Moisture</span>
-          <span style={{ color: COLORS.moisture }} className="font-medium">{data?.soilMoisture}%</span>
-        </div>
-        <div className="flex justify-between gap-4">
-          <span className="text-[var(--color-bark)]">Temperature</span>
-          <span style={{ color: COLORS.temperature }} className="font-medium">{data?.temperature}°C</span>
-        </div>
+    <div className="bg-white/95 backdrop-blur-md border border-white/30 rounded-xl shadow-lg p-3 min-w-[140px]">
+      <p className="font-semibold text-[13px] text-[var(--color-soil)]">{label}</p>
+      <p className="text-[10px] text-[var(--color-stone)] mb-2">{data?.date}</p>
+      
+      <div className="space-y-1.5">
+        <TooltipRow color={COLORS.risk} label="Risk" value={`${data?.riskScore}%`} />
+        <TooltipRow color={COLORS.moisture} label="Moisture" value={`${data?.soilMoisture}%`} />
+        <TooltipRow color={COLORS.temperature} label="Temp" value={`${data?.temperature}°C`} />
         {data?.rainfall > 0 && (
-          <div className="flex justify-between gap-4">
-            <span className="text-[var(--color-bark)]">Rainfall</span>
-            <span style={{ color: COLORS.rainfall }} className="font-medium">{data?.rainfall}mm</span>
-          </div>
+          <TooltipRow color={COLORS.rainfall} label="Rain" value={`${data?.rainfall}mm`} />
+        )}
+        {data?.ghostLine !== undefined && (
+          <TooltipRow color={COLORS.ghostLine} label="Projected" value={`${Math.round(data.ghostLine)}%`} />
         )}
       </div>
     </div>
   );
 }
 
-// Compact sparkline version for cards
+function TooltipRow({ color, label, value }: { color: string; label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center gap-1.5">
+        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: color }} />
+        <span className="text-[11px] text-[var(--color-stone)]">{label}</span>
+      </div>
+      <span className="text-[11px] font-medium" style={{ color }}>{value}</span>
+    </div>
+  );
+}
+
+// Compact sparkline version
 interface SparklineChartProps {
   data: number[];
   color?: string;
   height?: number;
+  showDot?: boolean;
 }
 
-export function SparklineChart({ data, color = COLORS.risk, height = 40 }: SparklineChartProps) {
+export function SparklineChart({ data, color = COLORS.risk, height = 32, showDot = true }: SparklineChartProps) {
   const chartData = data.map((value, index) => ({ value, index }));
+  const lastValue = data[data.length - 1];
+  const trend = data.length > 1 ? lastValue - data[data.length - 2] : 0;
   
   return (
-    <div style={{ height }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
-          <Line
-            type="monotone"
-            dataKey="value"
-            stroke={color}
-            strokeWidth={2}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="flex items-end gap-2" style={{ height }}>
+      <div className="flex-1" style={{ height }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData}>
+            <defs>
+              <linearGradient id={`spark-${color.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.2} />
+                <stop offset="100%" stopColor={color} stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <Area
+              type="monotone"
+              dataKey="value"
+              stroke={color}
+              fill={`url(#spark-${color.replace('#', '')})`}
+              strokeWidth={1.5}
+            />
+            {showDot && (
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="transparent"
+                dot={false}
+                activeDot={{ r: 3, fill: color }}
+              />
+            )}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      {showDot && (
+        <div 
+          className="w-1.5 h-1.5 rounded-full animate-pulse"
+          style={{ backgroundColor: color }}
+        />
+      )}
     </div>
   );
 }

@@ -1,9 +1,11 @@
 export { Navbar } from './Navbar';
 export { Sidebar } from './Sidebar';
 export { AppLayout } from './AppLayout';
-export { RiskGauge, RiskBreakdown } from './RiskGauge';
+export { RiskGauge, RiskBreakdown, RiskIndicator } from './RiskGauge';
 export { SensorCard, SensorMiniCard } from './SensorCard';
 export { SimulationPanel, SimulationPanelCompact } from './SimulationPanel';
+export { ActionCenter, ActionQuickSelect } from './ActionCenter';
 export { ForecastChart, SparklineChart } from './ForecastChart';
 export { RecommendationBanner, RecommendationList, sampleRecommendations } from './RecommendationBanner';
+export { InsightCard, InsightItem, InsightList } from './InsightCard';
 export { FarmSelector, FarmSelectorCompact } from './FarmSelector';
